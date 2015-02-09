@@ -13,6 +13,12 @@ Simply do
 
 A list of locations and their IDs can be [downloaded from Ruter lab's pages.](http://labs.trafikanten.no/how-to-use-the-api.aspx)
 
+The result would be something like this:
+
+    🚋  17 Rikshospitalet - in 2 minutes
+    🚌  31 Snarøya - in 2 minutes
+
+
 ## License
 The MIT License
 
