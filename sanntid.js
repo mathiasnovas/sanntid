@@ -12,7 +12,7 @@ var app = {
 	},
 
 	search: function (query, direction) {
-		var db = require('./db/stops2.json'),
+		var db = require('./db/stops.json'),
 			prompt = require('prompt'),
 			reg = new RegExp(query, 'g'),
 			hits = [];
