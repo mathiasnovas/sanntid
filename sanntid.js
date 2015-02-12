@@ -8,7 +8,58 @@ var app = {
 			return app.help();
 		}
 
-		app.getRealtimeData(args[0], args[1]);
+		app.search(args[0], args[1]);
+	},
+
+	search: function (query, direction) {
+		var db = require('./db/stops2.json'),
+			prompt = require('prompt'),
+			reg = new RegExp(query, 'g'),
+			hits = [];
+
+		var hit = db.filter(function (item) {
+			if (!isNaN(parseFloat(query)) && isFinite(query)) {
+				if (item.id === query) {
+					hits.push(item);
+				}
+			} else {
+				if (item.name.toLowerCase().match(reg) || item.name.match(reg)) {
+					hits.push(item);
+				}
+			}
+		});
+
+		if (hits.length > 0) {
+			if (hits.length > 1) {
+				console.log('Select platform:');
+				for (var i = 0; i < hits.length; i++) {
+					console.log(i + ': ' + hits[i].name);
+				}
+
+				var schema = {
+					properties: {
+						platform: {
+							pattern: /^[0-9]+$/,
+							message: 'Platform ID must be a number',
+							required: true
+						}
+					}
+				}
+
+				prompt.start();
+
+				prompt.get(schema, function (err, result) {
+					console.log('Platform: ' + hits[result.platform].name);
+					app.getRealtimeData(hits[result.platform], direction);
+				});
+
+				return false;
+			} else {
+				app.getRealtimeData(hits[0], direction);
+			}
+		} else {
+			app.error('The id/name was not found...');
+		}
 	},
 
 	error: function (message) {
@@ -25,7 +76,7 @@ var app = {
 
 	getRealtimeData: function (location, direction) {
 		var request = require('request'),
-			url = 'http://reisapi.ruter.no/stopvisit/getdepartures/' + location;
+			url = 'http://reisapi.ruter.no/stopvisit/getdepartures/' + location.id;
 
 		request(url, {}, function (err, res, body) {
 			if (!err && res.statusCode == 200) {
@@ -44,17 +95,34 @@ var app = {
 		for (var i = 0; i < 5; i++) {
 			var visit = data[i];
 
+			if (typeof visit.MonitoredVehicleJourney === 'undefined') {
+				return false;
+			}
+
 			if (!direction || (direction && direction === visit.MonitoredVehicleJourney.DirectionRef)) {
 				var timestamp = visit.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime,
 					name = visit.MonitoredVehicleJourney.DestinationName,
 					line = visit.MonitoredVehicleJourney.PublishedLineName,
-					vehicle = (visit.MonitoredVehicleJourney.VehicleMode === 0 ? '🚌' : '🚋'),
+					vehicle = visit.MonitoredVehicleJourney.VehicleMode,
 					atStop = (visit.MonitoredVehicleJourney.MonitoredCall.VehicleAtStop ? '🚦' : '➟'),
-					occupancy = visit.Extensions.OccupancyData.OccupancyPercentage;
+					occupancy = visit.Extensions.OccupancyData.OccupancyPercentage,
+					time = moment(timestamp).fromNow();
 
-				var time = moment(timestamp);
+				switch (vehicle) {
+					case 0:
+						vehicle = '🚌';
+						break;
+					case 3:
+						vehicle = '🚋';
+						break;
+					case 4:
+						vehicle = '🚈';
+						break;
+					default:
+						vehicle = '🚌';
+				}
 
-				result.push(vehicle + '  ' + line + ' ' + name + ' - ' + time.fromNow());
+				result.push(vehicle + '  ' + line + ' ' + name + ' - ' + time);
 			}
 		}
 

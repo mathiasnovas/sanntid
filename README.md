@@ -11,6 +11,10 @@ Simply do
 
     ./sanntid.js <locationID>
 
+Or you can search for a location like this:
+
+	./sanntid.js sofienberg
+
 The result would be something like this:
 
     🚋  17 Rikshospitalet - in 2 minutes
