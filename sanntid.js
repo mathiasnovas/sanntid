@@ -31,7 +31,6 @@ var app = {
 
 		if (hits.length > 0) {
 			if (hits.length > 1) {
-				console.log('Select platform:');
 				for (var i = 0; i < hits.length; i++) {
 					console.log(i + ': ' + hits[i].name);
 				}
@@ -40,8 +39,10 @@ var app = {
 					properties: {
 						platform: {
 							pattern: /^[0-9]+$/,
+							description: 'Select platform',
 							message: 'Platform ID must be a number',
-							required: true
+							required: true,
+							default: 0
 						}
 					}
 				}
@@ -49,7 +50,7 @@ var app = {
 				prompt.start();
 
 				prompt.get(schema, function (err, result) {
-					console.log('Platform: ' + hits[result.platform].name);
+					console.log(hits[result.platform].name);
 					app.getRealtimeData(hits[result.platform], direction);
 				});
 
