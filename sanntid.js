@@ -19,6 +19,8 @@ var app = {
 
 		var hit = db.filter(function (item) {
 			if (!isNaN(parseFloat(query)) && isFinite(query)) {
+				query = parseInt(query);
+
 				if (item.id === query) {
 					hits.push(item);
 				}
@@ -50,7 +52,7 @@ var app = {
 				prompt.start();
 
 				prompt.get(schema, function (err, result) {
-					console.log(hits[result.platform].name);
+					console.log(hits[result.platform].name + ' - ' + hits[result.platform].id);
 					app.getRealtimeData(hits[result.platform], direction);
 				});
 
