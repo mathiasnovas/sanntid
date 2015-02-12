@@ -11,7 +11,7 @@ Simply do
 
     ./sanntid.js <locationID>
 
-Or you can search for a location like this:
+Or you can search for a location:
 
 	./sanntid.js sofienberg
 
