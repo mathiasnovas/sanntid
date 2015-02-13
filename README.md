@@ -22,6 +22,10 @@ The result would be something like this:
 
 A list of locations and their IDs can be [downloaded from Ruter lab's pages.](http://labs.trafikanten.no/how-to-use-the-api.aspx)
 
+You can limit the results to a specific direction by specifying 1 or 2 as the second parameter:
+
+    ./sanntid.js sofienberg 1
+
 ## License
 The MIT License
 
