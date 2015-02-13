@@ -125,7 +125,7 @@ var app = {
 						vehicle = '🚌';
 				}
 
-				result.push(vehicle + '  ' + line + ' ' + name + ' - ' + time);
+				result.push(vehicle + '  ' + line + ' \t ' + name + ' - ' + time);
 			}
 		}
 
