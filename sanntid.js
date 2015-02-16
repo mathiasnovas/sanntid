@@ -149,7 +149,14 @@ var app = {
 			}
 
 			if (!direction || (direction && direction === visit.MonitoredVehicleJourney.DirectionRef)) {
-				var timestamp = visit.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime;
+				var timestamp = visit.MonitoredVehicleJourney.MonitoredCall.ExpectedArrivalTime,
+					now = new Date(),
+					timestamp = new Date(timestamp),
+					arrival = timestamp.getHours() + ':' + timestamp.getMinutes();
+
+				if ((timestamp.getMinutes() - now.getMinutes()) < 10) {
+					arrival = moment(timestamp).fromNow();
+				}
 
 				result.push({
 					timestamp: timestamp,
@@ -158,7 +165,7 @@ var app = {
 					vehicle: visit.MonitoredVehicleJourney.VehicleMode,
 					atStop: (visit.MonitoredVehicleJourney.MonitoredCall.VehicleAtStop ? '🚦' : '➟'),
 					occupancy: visit.Extensions.OccupancyData.OccupancyPercentage,
-					time: moment(timestamp).fromNow()
+					time: arrival
 				});
 			}
 		}
