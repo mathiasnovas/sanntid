@@ -6,6 +6,8 @@ Sanntid.js is a node.js module for getting real-time data from the public Ruter 
 Simply do
 
     npm install sanntid
+    
+Use the `-g` option to make the command globally available as `sanntid`.
 
 ## How to work it
 
