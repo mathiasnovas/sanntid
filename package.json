@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "prefer_global": true,
+  "bin": {
+    "sanntid": "./sanntid.js"
+  },
   "author": "novasism",
   "license": "ISC",
   "dependencies": {
