@@ -1,5 +1,8 @@
-Sanntid.js
+
+
+Sanntid.js [![Build Status](https://travis-ci.org/mathiasnovas/sanntid.svg?branch=master)](https://travis-ci.org/mathiasnovas/sanntid)
 ==
+
 Sanntid.js is a node.js module for getting real-time data from the public Ruter API.
 
 ## Installation
