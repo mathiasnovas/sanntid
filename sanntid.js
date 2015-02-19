@@ -163,7 +163,7 @@ var app = {
 					name: visit.MonitoredVehicleJourney.DestinationName,
 					line: visit.MonitoredVehicleJourney.PublishedLineName,
 					vehicle: visit.MonitoredVehicleJourney.VehicleMode,
-					atStop: (visit.MonitoredVehicleJourney.MonitoredCall.VehicleAtStop ? '🚦' : '➟'),
+					atStop: (visit.MonitoredVehicleJourney.MonitoredCall.VehicleAtStop ? true : false),
 					occupancy: visit.Extensions.OccupancyData.OccupancyPercentage,
 					time: arrival
 				});
@@ -199,4 +199,9 @@ var app = {
 	}
 }
 
-app.init();
+if (!module.parent) {
+    app.init();
+} else {
+    exports.search = app.search;
+    exports.getRealtimeData = app.getRealtimeData;
+}

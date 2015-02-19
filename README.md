@@ -14,6 +14,8 @@ Use the `-g` option to make the command globally available as `sanntid`.
 
 ## How to work it
 
+### As a CLI
+
     ./sanntid.js <locationID>
 
 Or you can search for a location:
@@ -30,6 +32,18 @@ A list of locations and their IDs can be [downloaded from Ruter lab's pages.](ht
 You can limit the results to a specific direction by specifying 1 or 2 as the second parameter:
 
     ./sanntid.js sofienberg 1
+
+### As a node module
+
+    var sanntid = require('./sanntid'),
+        locations = sanntid.search('sofienberg');
+
+    for (var i = 0; i < locations.length; i++) {
+        var realtimeData = sanntid.getRealtimeData(locations[i], '1', function (data) {
+            console.log(data);
+        });
+    }
+
 
 ## License
 The MIT License
