@@ -38,7 +38,7 @@ You can limit the results to a specific direction by specifying 1 or 2 as the se
         locations = sanntid.search('sofienberg');
 
     for (var i = 0; i < locations.length; i++) {
-        var realtimeData = sanntid.getRealtimeData(locations[i], '1', function (data) {
+        sanntid.getRealtimeData(locations[i], '1', function (data) {
             console.log(data);
         });
     }
