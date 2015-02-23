@@ -1,6 +1,6 @@
 {
   "name": "sanntid",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "sanntid.js",
   "scripts": {
@@ -25,5 +25,11 @@
   },
   "devDependencies": {
     "expect": "^1.6.0"
-  }
+  },
+  "keywords": [
+    "ruter",
+    "sanntid",
+    "api",
+    "public transport"
+  ]
 }
