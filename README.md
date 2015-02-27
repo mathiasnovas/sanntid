@@ -32,14 +32,16 @@ You can limit the results to a specific direction by specifying 1 or 2 as the se
 
 ### As a node module
 
-    var sanntid = require('./sanntid'),
-        locations = sanntid.search('sofienberg');
+```Javascript
+var sanntid = require('./sanntid'),
+locations = sanntid.search('sofienberg');
 
-    for (var i = 0; i < locations.length; i++) {
-        sanntid.getRealtimeData(locations[i], '1', function (data) {
-            console.log(data);
-        });
-    }
+for (var i = 0; i < locations.length; i++) {
+sanntid.getRealtimeData(locations[i], '1', function (data) {
+    console.log(data);
+});
+}
+```
 
 
 ## License
