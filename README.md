@@ -37,9 +37,9 @@ var sanntid = require('./sanntid'),
 locations = sanntid.search('sofienberg');
 
 for (var i = 0; i < locations.length; i++) {
-sanntid.getRealtimeData(locations[i], '1', function (data) {
-    console.log(data);
-});
+	sanntid.getRealtimeData(locations[i], '1', function (data) {
+	    console.log(data);
+	});
 }
 ```
 
