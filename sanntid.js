@@ -144,8 +144,8 @@ var app = {
 		for (var i = 0; i < 5; i++) {
 			var visit = data[i];
 
-			if (typeof visit.MonitoredVehicleJourney === 'undefined') {
-				return false;
+			if (typeof visit === 'undefined') {
+				continue;
 			}
 
 			if (!direction || (direction && direction === visit.MonitoredVehicleJourney.DirectionRef)) {
