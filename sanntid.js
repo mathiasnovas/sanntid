@@ -161,6 +161,7 @@ var app = {
 				result.push({
 					timestamp: timestamp,
 					name: visit.MonitoredVehicleJourney.DestinationName,
+					direction: visit.MonitoredVehicleJourney.DirectionName,
 					line: visit.MonitoredVehicleJourney.PublishedLineName,
 					vehicle: visit.MonitoredVehicleJourney.VehicleMode,
 					atStop: (visit.MonitoredVehicleJourney.MonitoredCall.VehicleAtStop ? true : false),
