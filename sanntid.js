@@ -141,7 +141,7 @@ var app = {
 			direction = (direction ? direction : false),
 			moment = require('moment');
 
-		for (var i = 0; i < 5; i++) {
+		for (var i = 0; i < data.length; i++) {
 			var visit = data[i];
 
 			if (typeof visit === 'undefined') {
