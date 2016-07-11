@@ -165,7 +165,7 @@ var app = {
 					line: visit.MonitoredVehicleJourney.PublishedLineName,
 					vehicle: visit.MonitoredVehicleJourney.VehicleMode,
 					atStop: (visit.MonitoredVehicleJourney.MonitoredCall.VehicleAtStop ? true : false),
-					occupancy: visit.Extensions.OccupancyData.OccupancyPercentage,
+					occupancy: visit.Extensions.OccupancyData ? visit.Extensions.OccupancyData.OccupancyPercentage : 0,
 					time: arrival
 				});
 			}
