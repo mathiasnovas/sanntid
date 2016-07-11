@@ -6,16 +6,26 @@ var app = {
 	 */
 	init: function () {
 		var prompt = require('prompt'),
+			program = require('commander'),
+			packageData = require('./package.json'),
 			args = app.getArgs(),
 			direction,
+			results,
 			hits;
 
-		if (typeof args[0] === 'undefined') {
-			return app.help();
+		program
+			.version(packageData.version)
+			.usage('[options] <location> [<direction>]')
+			.option('-n, --results <n>', 'Amount of results to show', parseInt)
+			.parse(process.argv);
+
+		if (typeof program.args[0] === 'undefined') {
+			return program.help();
 		}
 
-		hits = app.search(args[0]);
-		direction = args[1];
+		hits = app.search(program.args[0]);
+		direction = program.args[1];
+		results = program.results ? program.results : 5;
 
 		if (hits.length > 0) {
 			if (hits.length > 1) {
@@ -39,12 +49,12 @@ var app = {
 
 				prompt.get(schema, function (err, result) {
 					console.log(hits[result.platform].name + ' - ' + hits[result.platform].id);
-					app.getRealtimeData(hits[result.platform], direction, app.output);
+					app.getRealtimeData(hits[result.platform], direction, results, app.output);
 				});
 
 				return false;
 			} else {
-				app.getRealtimeData(hits[0], direction, app.output);
+				app.getRealtimeData(hits[0], direction, results, app.output);
 			}
 		} else {
 			app.error('The id/name was not found...');
@@ -87,13 +97,6 @@ var app = {
 	},
 
 	/**
-	 * Output the usage info.
-	 */
-	help: function () {
-		return console.info('Usage: sanntid.js <location> [<direction>]');
-	},
-
-	/**
 	 * Extract the process arguments.
 	 *
 	 * @return {Array}
@@ -107,9 +110,10 @@ var app = {
 	 *
 	 * @param {Object}   location  Location to fetch data for
 	 * @param {Number}   direction (Optional) Direction to limit the data to
+	 * @param {Number}   results   (Optional) Desured amount of results
 	 * @param {Function} callback  Function to send the results to
 	 */
-	getRealtimeData: function (location, direction, callback) {
+	getRealtimeData: function (location, direction, results, callback) {
 		var request = require('request'),
 			url = 'http://reisapi.ruter.no/stopvisit/getdepartures/' + location.id,
 			data;
@@ -121,7 +125,7 @@ var app = {
 
 		request(url, {}, function (err, res, body) {
 			if (!err && res.statusCode == 200) {
-				data = app.parseData(JSON.parse(body), direction);
+				data = app.parseData(JSON.parse(body), direction, results);
 				callback(data);
 			} else {
 				app.error('No data received from Ruter.');
@@ -132,20 +136,28 @@ var app = {
 	/**
 	 * Parse the data from the Ruter API.
 	 *
-	 * @param {Array} data       Data from the API
+	 * @param {Array}  data      Data from the API
 	 * @param {Number} direction (Optional) Direction to limit the data to
+	 * @param {Number} results   (Optional) Desured amount of results
 	 * @return {Array}
 	 */
-	parseData: function (data, direction) {
+	parseData: function (data, direction, results) {
 		var result = [],
 			direction = (direction ? direction : false),
-			moment = require('moment');
+			moment = require('moment'),
+			count = 0;
+
+		if (!results) {
+			results = data.length;
+		}
 
 		for (var i = 0; i < data.length; i++) {
 			var visit = data[i];
 
 			if (typeof visit === 'undefined') {
 				continue;
+			} else if (count === results) {
+				break;
 			}
 
 			if (!direction || (direction && direction === visit.MonitoredVehicleJourney.DirectionRef)) {
@@ -168,6 +180,8 @@ var app = {
 					occupancy: visit.Extensions.OccupancyData.OccupancyPercentage,
 					time: arrival
 				});
+
+				count++;
 			}
 		}
 
