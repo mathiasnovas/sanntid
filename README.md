@@ -34,6 +34,7 @@ You can limit the results to a specific direction by specifying 1 or 2 as the se
 
 ```Javascript
 var sanntid = require('./sanntid'),
+	allLocations = sanntid.list(),
 	locations = sanntid.search('sofienberg');
 
 for (var i = 0; i < locations.length; i++) {
