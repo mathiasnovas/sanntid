@@ -1,4 +1,4 @@
-# Sanntid.js 
+# Sanntid.js
 
 Sanntid.js is a node.js module for getting real-time data from the public Ruter API.
 
@@ -6,7 +6,7 @@ Sanntid.js is a node.js module for getting real-time data from the public Ruter 
 Simply do
 
     npm install sanntid
-    
+
 Use the `-g` option to make the command globally available as `sanntid`.
 
 ## How to work it
@@ -43,6 +43,11 @@ for (var i = 0; i < locations.length; i++) {
 }
 ```
 
+## Testing
+
+Run the tests using the `npm test` command:
+
+    npm test
 
 ## License
 The MIT License
