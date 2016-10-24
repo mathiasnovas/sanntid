@@ -62,13 +62,22 @@ var app = {
 	},
 
 	/**
+	 * List all of the available stops.
+	 *
+	 * @return {Array}
+	 */
+	list: function () {
+		return require('./db/stops.json');
+	},
+
+	/**
 	 * Search for locations.
 	 *
 	 * @param {String} query Location to search for (ID or text)
 	 * @return {Array}
 	 */
 	search: function (query) {
-		var db = require('./db/stops.json'),
+		var db = app.list(),
 			reg = new RegExp(query, 'g'),
 			hits = [];
 
@@ -218,5 +227,6 @@ if (!module.parent) {
     app.init();
 } else {
     exports.search = app.search;
+    exports.list = app.list;
     exports.getRealtimeData = app.getRealtimeData;
 }
